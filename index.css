@@ -166,3 +166,56 @@ body{
     color: rgb(111, 111, 228);
     padding: 7px 7px;
 }
+
+.playingState select{
+    background-color: rgb(85, 82, 82);
+    color: white;
+    padding: 5px;
+    border-radius: 5px;
+    font-size: 1em;
+    position: fixed;
+    right: 10px;
+}
+
+#matchRequest{
+    display: none;
+    float: left;
+    margin: 0%;
+    z-index: 5;
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    background-color: black;
+    opacity: 0.9;
+    text-align: center;
+}
+
+#opponentName{
+    margin-top: 10%;
+    color: white;
+    font-size: 40px;
+   
+}
+
+#matchRequest button{
+    padding: 10px;
+    font-size: 20px;
+    margin-left: 10px;
+    border-radius: 10px;
+}
+ #playingWith{
+    font-size: 30px;
+    position: absolute;
+    margin-top: 50px;
+    text-align: center;
+    width: 100vw;
+    display: none;
+ }
+
+ #whoseTurn{
+    font-size: 20px;
+    position: absolute;
+    margin-top: 120px;
+    text-align: center;
+    width: 100vw;
+ }
