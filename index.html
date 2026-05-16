@@ -1,18 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Sets the document's character encoding to UTF-8 for broad character support. -->
     <meta charset="UTF-8">
+    <!-- Ensures the page renders in the latest possible rendering mode for Internet Explorer. -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- Configures the viewport for responsive design, setting width to device-width and initial zoom to 1.0. -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <!-- Links the external stylesheet for styling the game interface. -->
     <link rel="stylesheet" href="index.css">
+    <!-- Imports the Socket.IO client-side library from a CDN for real-time web communication. -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.6.1/socket.io.min.js" integrity="sha512-AI5A3zIoeRSEEX9z3Vyir8NqSMC1pY7r5h2cE+9J6FLsoEmSSGLFaqMQw8SWvoONXogkfFrkQiJfLeHLz3+HOg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </head>
 <body>
+    <!-- Container for displaying game state options, like playing online. -->
     <div class="playingState">
+        <!-- Button to initiate online play. -->
         <button id="onlineButton"> Play Online</button>
     </div>
+    <!-- The main game board container for Tic-Tac-Toe. -->
     <div class="board " id="board">
+        <!-- Individual cells of the Tic-Tac-Toe board. There are 9 cells for a 3x3 grid. -->
         <div class="cell" data-cell></div>
         <div class="cell" data-cell></div>
         <div class="cell" data-cell></div>
@@ -23,11 +32,15 @@
         <div class="cell" data-cell></div>
         <div class="cell" data-cell></div>
     </div>
+    <!-- Overlay message container displayed when a game ends (win/draw). -->
     <div class="winning-message" id="winning-message">
+        <!-- Text element to display the winning or draw message. -->
         <div data-winning-message-text></div>
+        <!-- Button to restart the game. -->
         <button id="restartButton"> Restart</button>
     </div>
 </body>
+<!-- Links the main JavaScript file containing the game logic. -->
 <script src="index.js"></script>
 
 </html>
