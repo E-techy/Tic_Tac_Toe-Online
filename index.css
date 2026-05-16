@@ -1,221 +1,336 @@
+/*
+ * Universal box-sizing reset for all elements, pseudo-elements.
+ * Ensures padding and borders are included in the element's total width and height.
+ */
 *, *::after,*::before{
     box-sizing: border-box;
-
 }
+
+/*
+ * Defines custom CSS properties (variables) for consistent styling across the game.
+ */
 :root{
-    --cell-size: 100px;
-    --mark-size: calc(var(--cell-size)* 0.9);
+    --cell-size: 100px; /* Standard size for each cell in the Tic-Tac-Toe board */
+    --mark-size: calc(var(--cell-size)* 0.9); /* Size of the 'X' or 'Circle' mark within a cell */
 }
 
+/*
+ * Resets default margin for the body element.
+ */
 body{
     margin: 0;
 }
 
+/*
+ * Styles for the main game board container.
+ * Uses CSS Grid to create a 3x3 layout centered on the screen.
+ */
 .board{
-    width: 100vw;
-    height: 100vh;
-    display: grid;
-    justify-content: center;
-    align-content: center;
-    justify-items: center;
-    align-items: center;
-    grid-template-columns: repeat(3,auto);
+    width: 100vw; /* Full viewport width */
+    height: 100vh; /* Full viewport height */
+    display: grid; /* Enables CSS Grid layout */
+    justify-content: center; /* Centers grid items horizontally */
+    align-content: center; /* Centers grid items vertically */
+    justify-items: center; /* Centers content within each grid item horizontally */
+    align-items: center; /* Centers content within each grid item vertically */
+    grid-template-columns: repeat(3,auto); /* Creates 3 columns of automatic width */
 }
 
+/*
+ * Styles for individual cells within the game board.
+ * Each cell is a square with a border, serving as a display for marks.
+ */
 .cell{
-    width: var(--cell-size);
-    height: var(--cell-size);
-    border: 1px solid black;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-    cursor: pointer;
+    width: var(--cell-size); /* Width determined by custom property */
+    height: var(--cell-size); /* Height determined by custom property */
+    border: 1px solid black; /* Default border for cells */
+    display: flex; /* Enables flexbox for centering content (X/Circle) */
+    justify-content: center; /* Centers content horizontally */
+    align-items: center; /* Centers content vertically */
+    position: relative; /* Required for positioning pseudo-elements (marks) */
+    cursor: pointer; /* Indicates clickable cells */
 }
+
+/*
+ * Removes top borders for the first row of cells (cells 1, 2, 3)
+ * to create a cleaner grid appearance.
+ */
 .cell:first-child,
 .cell:nth-child(2),
 .cell:nth-child(3){
     border-top: none;
 }
 
+/*
+ * Removes left borders for cells in the first column (cells 1, 4, 7).
+ * Uses nth-child(3n + 1) to select every third cell starting from the first.
+ */
 .cell:nth-child(3n +1){
     border-left: none;
 }
 
+/*
+ * Removes right borders for cells in the third column (cells 3, 6, 9).
+ * Uses nth-child(3n + 3) to select every third cell starting from the third.
+ */
 .cell:nth-child(3n +3){
     border-right: none;
 }
+
+/*
+ * Removes bottom borders for the last row of cells (cells 7, 8, 9)
+ * to create a cleaner grid appearance.
+ */
 .cell:last-child,
 .cell:nth-child(8),
 .cell:nth-child(7){
     border-bottom: none;
 }
 
+/*
+ * Changes the cursor to 'not-allowed' for cells that already contain an 'X' or 'Circle' mark.
+ */
 .cell.x,
 .cell.circle{
     cursor: not-allowed;
 }
+
+/*
+ * Sets the background color for the actual 'X' and 'Circle' marks.
+ * The 'X' uses both ::before and ::after, while 'Circle' uses ::before for its outer ring.
+ */
 .cell.x::after,
 .cell.x::before,
 .cell.circle::before{
     background-color: black;
 }
 
+/*
+ * Sets the background color for the hover preview of the next player's mark.
+ * Applies to empty cells when it's 'X' or 'Circle' player's turn.
+ */
 .board.x .cell:not(.x):not(.circle):hover::before,
 .board.x .cell:not(.x):not(.circle):hover::after,
 .board.circle .cell:not(.x):not(.circle):hover::before{
     background-color: lightgrey;
 }
 
-
+/*
+ * Defines common properties for the 'X' mark's lines and its hover preview.
+ * Both lines are created using pseudo-elements with a specific width and height.
+ */
 .cell.x::before,
 .cell.x::after,
 .board.x .cell:not(.x):not(.circle):hover::before,
 .board.x .cell:not(.x):not(.circle):hover::after{
-    content: '';
-    position: absolute;
-    width: calc(var(--mark-size)*0.15);
-    height: var(--mark-size);
+    content: ''; /* Required for pseudo-elements to render */
+    position: absolute; /* Allows positioning relative to the cell */
+    width: calc(var(--mark-size)*0.15); /* Width of the 'X' lines, relative to mark size */
+    height: var(--mark-size); /* Height of the 'X' lines, matching mark size */
 }
 
+/*
+ * Rotates the first line of the 'X' mark (and its hover preview) by 45 degrees.
+ */
 .cell.x::before,
 .board.x .cell:not(.x):not(.circle):hover::before{
     transform: rotate(45deg);
 }
 
+/*
+ * Rotates the second line of the 'X' mark (and its hover preview) by -45 degrees.
+ */
 .cell.x::after,
 .board.x .cell:not(.x):not(.circle):hover::after{
     transform: rotate(-45deg);
 }
 
+/*
+ * Defines common properties for the 'Circle' mark's outer and inner parts,
+ * and its hover preview. Both parts are circular pseudo-elements.
+ */
 .cell.circle::before,
 .cell.circle::after,
 .board.circle .cell:not(.x):not(.circle):hover::before,
 .board.circle .cell:not(.x):not(.circle):hover::after {
-    content: '';
-    position: absolute;
-    border-radius: 50%;
+    content: ''; /* Required for pseudo-elements to render */
+    position: absolute; /* Allows positioning relative to the cell */
+    border-radius: 50%; /* Makes the pseudo-elements perfectly circular */
 }
 
+/*
+ * Styles for the outer ring of the 'Circle' mark (and its hover preview).
+ * It takes the full mark size.
+ */
 .cell.circle::before,
 .board.circle .cell:not(.x):not(.circle):hover::before{
-    width: var(--mark-size);
-    height: var(--mark-size);
-}
-.cell.circle::after,
-.board.circle .cell:not(.x):not(.circle):hover::after{
-    width: calc(var(--mark-size)* 0.7);
-    height: calc(var(--mark-size)* 0.7);
-    background-color: white;
+    width: var(--mark-size); /* Full width of the mark */
+    height: var(--mark-size); /* Full height of the mark */
 }
 
+/*
+ * Styles for the inner part of the 'Circle' mark (creating the hollow effect).
+ * It's smaller than the outer ring and has a white background to obscure the center.
+ */
+.cell.circle::after,
+.board.circle .cell:not(.x):not(.circle):hover::after{
+    width: calc(var(--mark-size)* 0.7); /* Smaller width for the inner circle */
+    height: calc(var(--mark-size)* 0.7); /* Smaller height for the inner circle */
+    background-color: white; /* Creates the hollow effect */
+}
+
+/*
+ * Styles for the winning/draw message overlay.
+ * Initially hidden and positioned to cover the entire screen.
+ */
 .winning-message {
-    display: none;
-    position: fixed;
+    display: none; /* Hidden by default */
+    position: fixed; /* Fixed position relative to the viewport */
     top: 0;
     bottom: 0;
     left: 0;
-    right: 0;
-    background-color: rgba(0, 0, 0, 0.9);
-    justify-content: center;
-    align-items: center;
-    color: white;
-    font-size:  5rem;
-    flex-direction: column;
+    right: 0; /* Covers the entire screen */
+    background-color: rgba(0, 0, 0, 0.9); /* Semi-transparent black overlay */
+    justify-content: center; /* Centers content horizontally */
+    align-items: center; /* Centers content vertically */
+    color: white; /* Text color */
+    font-size:  5rem; /* Large font size for the message */
+    flex-direction: column; /* Stacks message content vertically */
 }
 
+/*
+ * Styles for the button within the winning message overlay (e.g., "Restart").
+ */
 .winning-message button{
-    font-size: 3rem;
-    background-color: white;
-    border: 1px solid black;
-    padding:  .25em .5em;
-    cursor: pointer;
+    font-size: 3rem; /* Large font size for readability */
+    background-color: white; /* White background */
+    border: 1px solid black; /* Black border */
+    padding:  .25em .5em; /* Padding around text */
+    cursor: pointer; /* Indicates clickable button */
 }
 
+/*
+ * Hover effect for the winning message button.
+ * Changes background, text, and border color for visual feedback.
+ */
 .winning-message button:hover{
     background-color: black;
     color: white;
     border-color: white;
 }
+
+/*
+ * Class to display the winning message overlay.
+ * Overrides `display: none` to `display: flex`.
+ */
 .winning-message.show{
     display: flex;
 }
 
-
-
-
+/*
+ * Styles for the "playing state" bar, typically at the top of the screen.
+ * Used to display game-related information or controls.
+ */
 .playingState{
-    background-color: rgb(63, 62, 62);
-    width: 100vw;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    background-color: rgb(63, 62, 62); /* Dark grey background */
+    width: 100vw; /* Full viewport width */
+    display: flex; /* Enables flexbox for arranging content */
+    justify-content: center; /* Centers content horizontally */
+    align-items: center; /* Centers content vertically */
 }
 
+/*
+ * Styles for buttons within the playing state bar.
+ */
 .playingState button{
-    padding: 5px 5px;
-    font-size: 1em;
-    margin: 10px;
-    border: 2px solid rgb(167, 167, 176);
-    background-color: rgb(17, 18, 19);
-    color: white;
-    border-radius: 10px;
+    padding: 5px 5px; /* Padding for button text */
+    font-size: 1em; /* Standard font size */
+    margin: 10px; /* Margin around buttons */
+    border: 2px solid rgb(167, 167, 176); /* Grey border */
+    background-color: rgb(17, 18, 19); /* Very dark background */
+    color: white; /* White text color */
+    border-radius: 10px; /* Rounded corners */
 }
 
+/*
+ * Hover effect for buttons in the playing state bar.
+ * Changes text color and slightly increases padding for visual feedback.
+ */
 .playingState button:hover{
-    color: rgb(111, 111, 228);
-    padding: 7px 7px;
+    color: rgb(111, 111, 228); /* Blue text on hover */
+    padding: 7px 7px; /* Slightly larger padding on hover */
 }
 
+/*
+ * Styles for the dropdown (select element) in the playing state bar.
+ * Positioned fixed to the right.
+ */
 .playingState select{
-    background-color: rgb(85, 82, 82);
-    color: white;
-    padding: 5px;
-    border-radius: 5px;
-    font-size: 1em;
-    position: fixed;
-    right: 10px;
+    background-color: rgb(85, 82, 82); /* Darker grey background */
+    color: white; /* White text color */
+    padding: 5px; /* Padding inside the select box */
+    border-radius: 5px; /* Rounded corners */
+    font-size: 1em; /* Standard font size */
+    position: fixed; /* Fixed position relative to viewport */
+    right: 10px; /* 10px from the right edge */
 }
 
+/*
+ * Styles for a match request overlay, typically displayed when another player challenges.
+ * Initially hidden and covers the entire screen.
+ */
 #matchRequest{
-    display: none;
-    float: left;
-    margin: 0%;
-    z-index: 5;
-    position: absolute;
-    width: 100vw;
-    height: 100vh;
-    background-color: black;
-    opacity: 0.9;
-    text-align: center;
+    display: none; /* Hidden by default */
+    float: left; /* Floats left, though full width/height might make this less relevant */
+    margin: 0%; /* No margin */
+    z-index: 5; /* Ensures it appears above other content */
+    position: absolute; /* Absolute position relative to its containing block */
+    width: 100vw; /* Full viewport width */
+    height: 100vh; /* Full viewport height */
+    background-color: black; /* Solid black background */
+    opacity: 0.9; /* Slightly transparent */
+    text-align: center; /* Centers text horizontally */
 }
 
+/*
+ * Styles for the opponent's name displayed within the match request overlay.
+ */
 #opponentName{
-    margin-top: 10%;
-    color: white;
-    font-size: 40px;
-   
+    margin-top: 10%; /* Pushes the name down from the top */
+    color: white; /* White text color */
+    font-size: 40px; /* Large font size */
 }
 
+/*
+ * Styles for buttons within the match request overlay (e.g., Accept/Decline).
+ */
 #matchRequest button{
-    padding: 10px;
-    font-size: 20px;
-    margin-left: 10px;
-    border-radius: 10px;
+    padding: 10px; /* Padding for button text */
+    font-size: 20px; /* Large font size */
+    margin-left: 10px; /* Margin to separate buttons */
+    border-radius: 10px; /* Rounded corners */
 }
+
+/*
+ * Styles for the "playing with" display, indicating the current opponent.
+ * Initially hidden.
+ */
  #playingWith{
-    font-size: 30px;
-    position: absolute;
-    margin-top: 50px;
-    text-align: center;
-    width: 100vw;
-    display: none;
+    font-size: 30px; /* Large font size */
+    position: absolute; /* Absolute position */
+    margin-top: 50px; /* Pushes the text down from the top */
+    text-align: center; /* Centers text horizontally */
+    width: 100vw; /* Full viewport width */
+    display: none; /* Hidden by default */
  }
 
+ /*
+  * Styles for the "whose turn" display, indicating the current player.
+  */
  #whoseTurn{
-    font-size: 20px;
-    position: absolute;
-    margin-top: 120px;
-    text-align: center;
-    width: 100vw;
+    font-size: 20px; /* Standard font size */
+    position: absolute; /* Absolute position */
+    margin-top: 120px; /* Pushes the text down from the top */
+    text-align: center; /* Centers text horizontally */
+    width: 100vw; /* Full viewport width */
  }
